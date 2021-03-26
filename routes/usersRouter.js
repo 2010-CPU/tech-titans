@@ -7,9 +7,8 @@ const { requireUser } = require('./utils');
 
 const {createUser,
     getUserByUsername,
-    getUserById,
     getUser,
-    getAllUsers } 
+    } 
     = require('../db/users');
 
 

@@ -5,7 +5,11 @@ const bcrypt = require('bcrypt');
 
 
 
-// createUser has an "imageURL" created in the table but I left that out because it doesn't feel like it belongs here to me. 
+// createUser had an "imageURL" but I took that out, because I don't think users should have an imageurl in the table, 
+// unless we are allowing users to upload their own photos, but even then, that wouldn't be a url???? . 
+// I commented this out because I have it working from the index, even though everything in me wants to put it here. 
+
+
 // const createUser = async ({		
 //     firstName,
 //     lastName,

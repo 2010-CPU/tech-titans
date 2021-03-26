@@ -73,6 +73,8 @@ async function buildTables() {
 	}
 };
 
+
+// I feel like this should be on the products page, but it's working, so I don't want to go moving stuff around right now. 
 const createProduct = async ({name, description, price, imageUrl, inStock, category}) => {
 	console.log('starting to create product');
 	try{
@@ -91,7 +93,7 @@ const createProduct = async ({name, description, price, imageUrl, inStock, categ
 };
 
 
-
+// I feel like this should be on the products page, but it's working, so I don't want to go moving stuff around right now. 
 const createInitialProducts = async () => {
 	try{
 		console.log('starting to create initial products');
@@ -114,6 +116,7 @@ const createInitialProducts = async () => {
 
 // createUser has an "imageURL" created in the table but I left that out because it doesn't feel like it belongs here to me. 
 // took out    ON CONFLICT (username) DO NOTHING because it was throwing errors
+// I feel like this should be in the users file, but it's working (I think) and I don't want to move things around right now. 
 const createUser = async ({		
     firstName,
     lastName,
@@ -140,8 +143,10 @@ const createUser = async ({
     } catch (error) {
         throw error;
     }
-}
+};
 
+
+// I feel like this should be in the users file, but it's working (I think) and I don't want to move things around right now. 
 const createInitialUsers = async () => {
 	try{
 		console.log('starting to create initial users');

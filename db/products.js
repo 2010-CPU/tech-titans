@@ -1,6 +1,12 @@
 const {client} = require('./index');
 	console.log('CLIENT', client);
 
+
+// for some reason, I have this in the index file also, and I think this is where it should be,
+//  but I don't trust myself at the moment to go moving things around and will come back to this when I have been able to clear my head a little. 
+
+
+
 const createProduct = async ({name, description, price, imageUrl, inStock, category}) => {
 	console.log('starting to create products');
 	try{
