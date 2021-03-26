@@ -3,6 +3,7 @@ const { Client } = require('pg');
 const DB_NAME = 'grace-shopper-db'
 const DB_URL = process.env.DATABASE_URL || `postgres://localhost:5432/${ DB_NAME }`;
 const client = new Client(DB_URL);
+const bcrypt = require('bcrypt');
 
 // database methods
 async function dropTables() {
@@ -34,13 +35,16 @@ async function buildTables() {
 		    category VARCHAR(255) NOT NULL
 		  );
 		`);
+
+		// added quotes to firstName, lastName because they were causing case-folding errors
+		// took out imageURL because I don't think it goes here, and it was violating non-null constraint
 		await client.query(`
 		    CREATE TABLE users(
 		      id SERIAL PRIMARY KEY,
-		      firstName VARCHAR(255) NOT NULL,
-		      lastName VARCHAR(255) NOT NULL,
+		      "firstName" VARCHAR(255) NOT NULL,
+		      "lastName" VARCHAR(255) NOT NULL,
 		      email VARCHAR(255) UNIQUE NOT NULL,
-		      "imageURL" VARCHAR(255) NOT NULL,
+		
 		      username VARCHAR(255) NOT NULL,
 		      password VARCHAR(255) UNIQUE NOT NULL,
 		      "isAdmin" BOOLEAN DEFAULT false
@@ -108,6 +112,56 @@ const createInitialProducts = async () => {
 	}
 };
 
+// createUser has an "imageURL" created in the table but I left that out because it doesn't feel like it belongs here to me. 
+// took out    ON CONFLICT (username) DO NOTHING because it was throwing errors
+const createUser = async ({		
+    firstName,
+    lastName,
+    email,
+    username,
+    password,
+    }) => {
+		console.log('starting to create a user')
+    try {
+        const SALT_COUNT = 10;
+        const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+		// client.query('SELECT * FROM pg_catalog.pg_tables', function(err, result) {
+		// 	console.log(result);
+		//   });
+        const { rows: [user] } = await client.query(`
+        INSERT INTO users("firstName", "lastName", email, username, password)
+        VALUES($1, $2, $3, $4, $5)
+
+        RETURNING *;
+        `, [firstName, lastName, email, username, hashedPassword]);
+        delete user.password
+		console.log('this is a created user', user)
+        return user
+    } catch (error) {
+        throw error;
+    }
+}
+
+const createInitialUsers = async () => {
+	try{
+		console.log('starting to create initial users');
+		
+		const usersToCreate = [
+			{ firstName: 'Henry', lastName: "Hugglefish", email: 'henryhugglefish@huggamugga.com', username: 'Henry', password: 'password', isAdmin: false},
+            { firstName: 'Boaty', lastName: 'McBoatface', email: 'boatyboat@boat.com', username: 'Skipper', password: 'dipper', isAdmin: false},
+            { firstName: 'Anita', lastName: 'Bath', email: 'Anita@bath.com', username: 'calgon', password: '12345678', isAdmin: true},
+            { firstName: 'Ollie', lastName: 'Tabogger', email: 'yummy@delish.com', username: 'imonlyseven', password: 'sevenisbest', isAdmin: true},
+		];
+		
+		const users = await Promise.all(usersToCreate.map(user => createUser(user)));
+		console.log('USERS CREATED:', users);
+		console.log('FINISHED CREATING USERS');
+	}
+	catch(error){
+		throw error;
+	}
+};
+
 
 // export
 module.exports = {
@@ -115,4 +169,7 @@ module.exports = {
   dropTables,
   buildTables,
   createInitialProducts,
+  createUser,
+  createInitialUsers
+
 }
