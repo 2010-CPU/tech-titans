@@ -76,18 +76,18 @@ async function buildTables() {
 
 // I feel like this should be on the products page, but it's working, so I don't want to go moving stuff around right now. 
 const createProduct = async ({name, description, price, imageUrl, inStock, category}) => {
-	console.log('starting to create product');
+
 	try{
 		const {rows: [product]} = await client.query(`
 			INSERT INTO products (name, description, price, "imageURL", "inStock", category)
 			VALUES($1, $2, $3, $4, $5, $6)
 			RETURNING *;
 		`, [name, description, price, imageUrl, inStock, category]);
-		console.log('the product', product)
+
 		return product;
 	}
 	catch(err){
-		console.log('producterr:', err);
+
 		throw err;
 	}
 };
@@ -124,7 +124,7 @@ const createUser = async ({
     username,
     password,
     }) => {
-		console.log('starting to create a user')
+
     try {
         const SALT_COUNT = 10;
         const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
@@ -138,7 +138,7 @@ const createUser = async ({
         RETURNING *;
         `, [firstName, lastName, email, username, hashedPassword]);
         delete user.password
-		console.log('this is a created user', user)
+
         return user
     } catch (error) {
         throw error;
