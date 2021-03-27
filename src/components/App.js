@@ -47,11 +47,9 @@ const App = () => {
       <Route exact path='/products'>
       	<Products products={products} setProducts={setProducts}/>
       </Route>
-			{products.map(product => {
-				return <Route exact path ={`/products/${product.id}`}>
-					<Product product={product}/>
+		 <Route exact path ={`/products/:id`}>
+					<Product products={products}/>
 				</Route>
-			})}
     </div>
   </Router>
   );
