@@ -14,17 +14,24 @@ const Product = ({products, product}) => {
 			throw error;
 		}
 	}
+	
 
-	useEffect(async () => {
-		const aProduct =await getProduct(id)
-		if(aProduct){
-	   setSingleProduct(aProduct)
+
+	useEffect( () => {
+		const getAndSetProduct = async () => {
+			const aProduct = await getProduct(id)
+			if(aProduct){
+			 setSingleProduct(aProduct)
+			}
+		}
+		if(id){
+			getAndSetProduct();
 		}
 	}, [id])
 
 	if(product){
 		console.log('THE PRODUCT', product);
-		return <div key={product.id}>
+		return <>
 		<h3 className='products-list-name'>
 			<Link to={`/products/${product.id}`}> {product.name} </Link>
 		</h3>
@@ -33,7 +40,7 @@ const Product = ({products, product}) => {
 			<li>in stock? {product.inStock ? 'yes' : 'no' }</li>
 			<li>price: ${product.price}</li>
 		</ul>
-	</div>
+	</>
 	}else{
 
 

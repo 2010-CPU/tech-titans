@@ -27,7 +27,6 @@ const Login = ({setUser, setToken}) => {
 	};
 
 	return <>
-		<form>
 			<div className='accountform'>
 				<form onSubmit={handleSubmit}>
 					<input type='text' value={username} onChange={(ev) => setUsername(ev.target.value)} placeholder="username"></input>
@@ -37,7 +36,6 @@ const Login = ({setUser, setToken}) => {
 					<button type="submit">SUBMIT</button>
 				</form>
 			</div>
-		</form>
 	</>
 };
 
