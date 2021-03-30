@@ -7,7 +7,7 @@ const getAllOrders = async () => {
         const {rows: orders } = await client.query(`
             SELECT * 
             FROM orders
-            JOIN order_products ON "orderId" = order.id;
+            JOIN products ON "productId" = product.id;
         `);
         return orders;
     }catch(error) {
@@ -22,7 +22,7 @@ const getOrderById = async ({id}) => {
         SELECT *
         FROM orders
         WHERE id=${id}
-        JOIN order_products ON "orderId" = order.id;
+        JOIN products ON "productId" = product.id;
         `,[id]);
         return order;
     }catch(error){
@@ -30,45 +30,22 @@ const getOrderById = async ({id}) => {
     }
 };
 
-const getOrdersByUser = async({id})
+const getOrdersByUser = async({id}) => {
 try {
-    const { rows: routines } = await client.query(`
-    SELECT
-        routines.id,
-        routines.name,
-        routines."creatorId",
-        users.username AS "creatorName",
-        routines.goal,
-        routines."isPublic"
-        FROM routines
-        JOIN users on "creatorId" = users.id
-        WHERE users.username=$1;
-    `, [username]);
+    const { rows: orders } = await client.query(`
+    SELECT *
+        FROM orders
+        JOIN products on "productId" = product.id
+        WHERE users.id=${id};
+    `, [id]);
     
-    await getActivitiesForRoutines(routines)
-    console.log("Routines by user!!!!!!:", routines)
-    return routines
+    await getUserById(id)
+    return orders;
 } catch (error) {
     throw error
 }
+};
 
-
-function getOrdersByUser({ id }) {
-    try {
-        const { rows: orders } = await client.query(`
-    SELECT *
-        FROM orders
-        JOIN order_products on "orderId" = order.id
-        WHERE users.username=$1;
-    `, [id]);
-
-        await getUserById(id);
-        return orders;
-
-    } catch (error) {
-        throw error;
-    }
-} 
 
 function getOrdersByProduct({ id }) {
     try {
