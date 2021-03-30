@@ -1,6 +1,6 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const {JWT_SECRET = "neverTell"} = process.env
+const {JWT_SECRET = "don't tell a soul"} = process.env
 const express = require('express');
 const usersRouter = express.Router();
 const { requireUser } = require('./utils');
@@ -9,6 +9,7 @@ const {
   getUserByUsername,
   getUser,
   getAllUsers,
+  getUserById,
 } = require('../db/users');
 
 const {
@@ -22,6 +23,41 @@ usersRouter.get('/', async(req, res, next) => {
     } catch (error) {
         next(error)
     }
+});
+
+usersRouter.get('/me', async (req, res, next) => {
+	console.log('STARTING TO GET ME');
+	const prefix = 'Bearer '
+	const auth = req.headers.authorization;
+	if (!auth) {
+		next({
+			name: 'noAuthorizationError',
+			message: 'i need a token. there is a token machine in the lobby.'
+		});
+	}
+	else if (auth.startsWith(prefix)) {
+		const token = auth.slice(prefix.length);
+		
+		try{
+			const { id } = jwt.verify(token, JWT_SECRET);
+			if (id) {
+				const user = await getUserById(id);
+				res.send(user);
+			}
+		}
+		catch(error){
+			console.log('THE ERROR FROM /ME', error);
+			next(error);
+		}
+	}
+	else {
+		next({
+			name: 'AuthorizationHeaderError',
+			message: `Authorization token must start with ${ prefix }`
+		});
+	}
+	
+	
 });
 
 usersRouter.post('/register', async (req, res, next) => {

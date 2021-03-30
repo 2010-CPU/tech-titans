@@ -27,3 +27,18 @@ export async function getProductById(id) {
 		throw error;
 	}
 }
+
+
+export async function login({username, password}) {
+	
+	try{
+		const {data} = await axios.post(`/api/users/login`, {
+			username: "johnbonjovi",
+    	password: "passwordo"
+		});
+		return data;
+	}
+	catch(error){
+		throw error;
+	}
+}

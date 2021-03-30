@@ -23,8 +23,11 @@ const Product = ({products, product}) => {
 	}, [id])
 
 	if(product){
+		console.log('THE PRODUCT', product);
 		return <div key={product.id}>
-		<h3 className='products-list-name'>{product.name}</h3>
+		<h3 className='products-list-name'>
+			<Link to={`/products/${product.id}`}> {product.name} </Link>
+		</h3>
 		<ul>
 			<li>description: {product.description}</li>
 			<li>in stock? {product.inStock ? 'yes' : 'no' }</li>

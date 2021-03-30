@@ -9,11 +9,28 @@ import {
 import{
 Products,
 Product,
+Register,
+Login,
 } from './';
 
 const App = () => {
   const [message, setMessage] = useState('');
   const [products, setProducts] = useState([]);
+  const [token, setToken] = useState( () => {
+		if (localStorage.getItem('token')) {
+			return localStorage.getItem('token')
+		} else {
+			return ''
+		}
+	});
+	const [user, setUser] = useState( () => {
+		if (localStorage.getItem('user')) {
+			return localStorage.getItem('user');
+		}
+		else{
+			return {};
+		}
+	});
 
 	const fetchAndSetProducts = async () => {
 		try{
@@ -42,12 +59,27 @@ const App = () => {
     <div className="App">
       <h1>Hello, World!</h1>
       <h2>{ message }</h2>
+      
+      <Link to='/products'>Products</Link>
+      <Link to='/login'>Login</Link>
+      <Link to='/register'>Register</Link>
+      
       <Route exact path='/products'>
       	<Products products={products} setProducts={setProducts}/>
       </Route>
+      
 			<Route exact path={`/products/:id`}>
 				<Product products={products} />
 			</Route>
+			
+			<Route exact path='/register'>
+				<Register />
+			</Route>
+			
+			<Route exact path='/login'>
+				<Login setToken={setToken} setUser={setUser}/>
+			</Route>
+			
     </div>
   </Router>
   );
