@@ -59,11 +59,39 @@ function getOrdersByProduct({ id }) {
     } catch (error) {
         throw error;
     }
+};
+
+const getCartByUser = async({id}) => {
+    try {
+        const {rows: orders } = await client.query(`
+        SELECT *
+        FROM orders
+        JOIN users ON "userId" = users.id
+        WHERE status = 'created;
+        `, [id])
+        return order
+    }catch(error) {
+        throw error;
+    }
+};
+
+const createOrder = async ({status, userId}) => {
+    try{
+        const { rows: order } = await client.query(`
+            INSERT INTO orders ( status, "userId)
+            VALUES ($1, $2)
+            RETURNING *;
+        `, [status, userId])
+        return order;
+    }catch(error) {
+        throw error;
+    }
 }
   
 module.exports = {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
-    getOrdersByProduct
+    getOrdersByProduct,
+    getCartByUser
 }
