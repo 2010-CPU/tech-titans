@@ -3,7 +3,8 @@ import {Link, useHistory, useParams} from 'react-router-dom';
 import { getOrderById } from '.../db/orders.js';
 
 
-
+// This needs some work on  Display the single order component when the url matches /orders/:orderId (**) I think we need to work in requireUser 
+// and check that the logged in user is the one creating the order
 const Order = ({orders, order}) => {
 	const {id} = useParams();
 	const [singleOrder, setSingleOrder ] = useState({});
