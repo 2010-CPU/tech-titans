@@ -95,4 +95,5 @@ module.exports = {
     getOrdersByProduct,
     getCartByUser,
     createOrder
+    getCartByUser
 }

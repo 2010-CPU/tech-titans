@@ -9,11 +9,16 @@ import {
 import{
 Products,
 Product,
+Nav,
+Login
 } from './';
 
 const App = () => {
   const [message, setMessage] = useState('');
   const [products, setProducts] = useState([]);
+  const [token, setToken] = useState();
+  const [user, setUser] = useState({});
+  const [username, setUsername] = useState('');
 
 	const fetchAndSetProducts = async () => {
 		try{
@@ -42,6 +47,12 @@ const App = () => {
     <div className="App">
       <h1>Hello, World!</h1>
       <h2>{ message }</h2>
+      <Route>
+        <Nav user={user} setUser={setUser} token={token} setToken={setToken} username={username} />
+      </Route>
+      <Route exact path = '/Login'>
+        <Login user={user} setUser={setUser} token={token} setToken={setToken} username={username} password={password}/>
+      </Route>
       <Route exact path='/products'>
       	<Products products={products} setProducts={setProducts}/>
       </Route>
