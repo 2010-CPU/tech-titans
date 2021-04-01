@@ -38,7 +38,7 @@ try {
         JOIN products on "productId" = product.id
         WHERE users.id=${id};
     `, [id]);
-    
+
     await getUserById(id)
     return orders;
 } catch (error) {
@@ -87,11 +87,13 @@ const createOrder = async ({status, userId}) => {
         throw error;
     }
 }
-  
+
 module.exports = {
     getOrderById,
     getAllOrders,
     getOrdersByUser,
     getOrdersByProduct,
+    getCartByUser,
+    createOrder
     getCartByUser
 }
