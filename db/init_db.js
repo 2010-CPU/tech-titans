@@ -1,4 +1,5 @@
 // code to build and initialize DB goes here
+
 const {
   client,
   dropTables,
@@ -6,6 +7,7 @@ const {
   // other db methods
   createInitialProducts,
   createInitialUsers,
+  createInitialOrders
 } = require('./index');
 
 
@@ -27,6 +29,7 @@ async function populateInitialData() {
     // create useful starting data
     await createInitialProducts();
     await createInitialUsers();
+    await createInitialOrders();
   } catch (error) {
     throw error;
   }

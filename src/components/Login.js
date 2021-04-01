@@ -12,14 +12,14 @@ const Login = ({user, setUser, token, setToken, username, password}) => {
 //     }
     
 
-    return <>
-    <div>
-        <form onSubmit={handleSubmit}>
-        <input type="text" value={username} minLength= '5' className="nameInput" onChange={(event) => setUsername(event.target.value)} placeholder="username"></input>
-        <input type="password" value={password} minLength = '7' className="passwordInput" onChange={(event) => setPassword(event.target.value)} placeholder="password"></input>
-        </form>
-    </div>
-    </>
+    // return <>
+    // <div>
+    //     <form onSubmit={handleSubmit}>
+    //     <input type="text" value={username} minLength= '5' className="nameInput" onChange={(event) => setUsername(event.target.value)} placeholder="username"></input>
+    //     <input type="password" value={password} minLength = '7' className="passwordInput" onChange={(event) => setPassword(event.target.value)} placeholder="password"></input>
+    //     </form>
+    // </div>
+    // </>
 
 }
 

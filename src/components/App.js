@@ -51,7 +51,7 @@ const App = () => {
         <Nav user={user} setUser={setUser} token={token} setToken={setToken} username={username} />
       </Route>
       <Route exact path = '/Login'>
-        <Login user={user} setUser={setUser} token={token} setToken={setToken} username={username} password={password}/>
+        <Login user={user} setUser={setUser} token={token} setToken={setToken} username={username}/>
       </Route>
       <Route exact path='/products'>
       	<Products products={products} setProducts={setProducts}/>

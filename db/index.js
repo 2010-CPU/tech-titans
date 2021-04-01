@@ -4,6 +4,8 @@ const DB_NAME = 'grace-shopper-db'
 const DB_URL = process.env.DATABASE_URL || `postgres://localhost:5432/${ DB_NAME }`;
 const client = new Client(DB_URL);
 const bcrypt = require('bcrypt');
+// const placeholderImg = require('./placeholder');
+
 const SALT_COUNT = 10;
 
 // database methods
@@ -51,7 +53,7 @@ async function buildTables() {
 				id SERIAL PRIMARY KEY,
 				status VARCHAR(255) DEFAULT 'created',
 				"userId" INTEGER REFERENCES users(id),
-				"datePlaced" DATE NOT NULL
+				"datePlaced" DATE NOT NULL DEFAULT CURRENT_DATE
 			)
 	`);
 	await client.query(`
@@ -145,6 +147,7 @@ const createUser = async ({
 }) => {
 	console.log('starting to create a user');
 	try{
+
 		const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
 		const { rows: [user] } = await client.query(`
 			INSERT INTO users("firstName", "lastName", email, username, password, "imageURL")
@@ -205,6 +208,41 @@ const createInitialUsers = async () => {
 	}
 }
 
+const createOrder = async({ userId}) => {
+    try{
+        const { rows: [order] } = await client.query(`
+            INSERT INTO orders ( "userId")
+            VALUES ($1)
+            RETURNING *;
+        `, [userId])
+        return order;
+    }catch(error) {
+        throw error;
+    }
+}
+
+const createInitialOrders = async() => {
+	try{
+		console.log('Starting to create initial orders');
+		const ordersToCreate = [
+				{
+					userId: 1, 
+				},
+				{
+					userId: 2, 
+    			},
+    ];
+  	
+    const orders = await Promise.all(ordersToCreate.map(createOrder));
+    console.log('ORDERS CREATED:', orders);
+    console.log('FINISHED CREATING ORDERS');
+	}
+	catch(error){
+		throw error;
+	}
+}
+
+
 
 // export
 module.exports = {
@@ -215,4 +253,5 @@ module.exports = {
   createProduct,
   createUser,
   createInitialUsers,
+  createInitialOrders
 }
