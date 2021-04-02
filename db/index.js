@@ -208,13 +208,15 @@ const createInitialUsers = async () => {
 	}
 }
 
-const createOrder = async({ userId}) => {
+
+// I added status back in here because the milestone specifically says for it to take these two parameters
+const createOrder = async({ status, userId}) => {
     try{
         const { rows: [order] } = await client.query(`
-            INSERT INTO orders ( "userId")
-            VALUES ($1)
+            INSERT INTO orders ( status, "userId")
+            VALUES ($1, $2)
             RETURNING *;
-        `, [userId])
+        `, [status, userId])
         return order;
     }catch(error) {
         throw error;

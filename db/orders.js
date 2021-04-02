@@ -63,6 +63,8 @@ const getOrdersByProduct = async({ id }) => {
 
 
 
+// someone help with this!!! I don't know what is happening here....
+// this is copied from the milestone: 
 // getCartByUser({ id }) or getCartByUser(user)
 //  select one user's order (look up by orders."userId")
 //  ...an order that that has status = created
@@ -70,6 +72,7 @@ const getOrdersByProduct = async({ id }) => {
 
 const getCartByUser = async({id}) => {
     try {
+
         const {rows: orders } = await client.query(`
         SELECT *
         FROM orders

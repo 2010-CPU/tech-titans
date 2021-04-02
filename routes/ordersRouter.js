@@ -17,15 +17,12 @@ ordersRouter.get('/', async(req, res, next) => {
 });
 
 ordersRouter.get('/cart', requireUser, async(req, res, next) => {
-    const {status} = req.params
-    if(status === isCreated) {
         try {
-            const cart = await getCartByUser;
+            const cart = await getCartByUser();
             res.send(cart);
         }catch(error) {
             next(error)
         }
-    }
 })
 
 ordersRouter.post('/', requireUser, async(req, res, next) => {
