@@ -22,7 +22,7 @@ usersRouter.get('/', async (req, res, next) => {
 	res.send(users);
 });
 
-usersRouter.get('/me', async (req, res, next) => {
+usersRouter.get('/me', requireUser, async (req, res, next) => {
 	console.log('STARTING TO GET ME');
 	const prefix = 'Bearer '
 	const auth = req.headers.authorization;
