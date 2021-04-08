@@ -7,23 +7,15 @@ import youtube from '../youtube.png';
 
 const style = {
     textAlign: "center",
-    padding: "20px",
-    left: "0",
+    padding: "10px",
     bottom: "0",
     height: "10em",
     width: "100%",
 };
 
-const phantom = {
-    display: 'block',
-    padding: '20px',
-    height: '60px',
-    width: '100%',
-  }
-
 function Footer({ children }) {
     return <>
-            <div style={phantom} style={style}>
+            <div style={style}>
                 { children }
                 <p className="copyright">© 1796-3005, WE HAVE THINGS, Inc. or its affiliates</p>
 			    <a href='https://www.facebook.com/marketplace/?ref=app_tab'><img className="socials" src={fb}/></a>
