@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllOrders, getOrderById, getOrdersByUser } = require('../db/orders');
+const { getAllOrders, getOrderById, getOrdersByUser, updateOrder, completeOrder, cancelOrder } = require('../db/orders');
 const { addProductToOrder, getOrderProductById, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
 const ordersRouter = express.Router();
 
@@ -22,6 +22,29 @@ ordersRouter.get('/:id', async(req, res, next) => {
 	catch(error){
 		next(error);
 	}
+});
+
+ordersRouter.patch('/:orderId', requireUser, async(req, res, next) => {
+	const {status, userId} = req.body;
+    const {id} = req.params;
+    console.log('updating order');
+    try{
+        const order = await updateOrder({id: id, status: status, userId: userId});
+        res.send(order);
+    }catch(error){
+        next(error);
+    }
+});
+
+ordersRouter.delete('/:orderId', requireUser, async(req, res, next) => {
+	try{
+        const {id} = req.params;
+        const order = await cancelOrder(id);
+        console.log('deleting order');
+        res.send({message: 'deleted', order});
+    }catch(error){
+        next(error);
+    }
 });
 
 //needs to add order_product to order

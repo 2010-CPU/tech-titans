@@ -75,10 +75,51 @@ const getOrdersByUser = async ({id}) => {
 	}
 };
 
+const updateOrder = async ({id, status, userId}) => {
+	try{
+		const {rows: order} = await client.query(`
+		UPDATE orders
+        SET status=${status}, "userId"=${userId}
+        WHERE id=${id}
+        RETURNING *;
+		`);
+		return order;
+	}catch(error){
+		throw error;
+	}
+};
 
+const completeOrder = async ({id}) => {
+	try{
+		const {rows: order} = await client.query(`
+		UPDATE orders
+		SET status="completed"
+		WHERE id=${id}
+		RETURNING *;
+		`);
+	}catch(error){
+		throw error;
+	}
+};
+
+const cancelOrder = async(id) => {
+	try{
+		const {rows: order} = await client.query(`
+		UPDATE orders
+		SET status="cancelled"
+		WHERE id=${id}
+		RETURNING *;
+		`);
+	}catch(error){
+		throw error;
+	}
+};
 
 module.exports = {
 	getAllOrders,
 	getOrderById,
 	getOrdersByUser,
+	updateOrder,
+	completeOrder,
+	cancelOrder
 }
