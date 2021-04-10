@@ -88,7 +88,14 @@ const getOrdersByProduct = async ({ id }) => {
 	}
 };
 
-getOrdersByProduct({id: 1}).then(console.log)
+const getCartByUser = async ({id}) => {
+	console.log(id, 'this is the id')
+	const orders = await getOrdersByUser({id});
+	const cart = orders.filter(order => order.status === 'created')
+	return cart;
+	
+};
+getCartByUser({id: 2}).then(console.log)
 
 
 
