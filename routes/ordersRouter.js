@@ -1,5 +1,5 @@
 const express = require('express');
-const { getAllOrders, getOrderById, getOrdersByUser } = require('../db/orders');
+const { getAllOrders, getOrderById, getCartByUser } = require('../db/orders');
 const { addProductToOrder, getOrderProductById, updateOrderProduct, destroyOrderProduct } = require('../db/orderProducts');
 const ordersRouter = express.Router();
 const {createOrder} = require('../db/index')
@@ -47,6 +47,18 @@ ordersRouter.post('/', requireUser, async(req, res, next) => {
     }
 
 })
+
+ordersRouter.get('/cart', requireUser, async (req, res, next) => {
+	const { id } = req.user;
+	console.log('sandwiches')
+	try{
+		const cart = await getCartByUser({id})
+		console.log(cart, 'this is the cart')
+		res.send(cart)
+	}catch(error){
+		next(error)
+	}
+});
 
 //needs to add order_product to order
 ordersRouter.post('/:orderId/products', async(req, res, next) => {

@@ -108,4 +108,5 @@ module.exports = {
 	getOrderById,
 	getOrdersByUser,
 	getOrdersByProduct,
+	getCartByUser,
 }
