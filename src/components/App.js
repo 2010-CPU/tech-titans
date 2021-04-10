@@ -22,6 +22,7 @@ import{
 const App = () => {
   const [message, setMessage] = useState('');
   const [products, setProducts] = useState([]);
+  const [orders, setOrders] = useState([]);
 	const [token, setToken] = useState( () => {
 		if (localStorage.getItem('token')) {
 			return localStorage.getItem('token')
@@ -78,6 +79,10 @@ const App = () => {
 
 			<Route exact path={`/products/:id`}>
 				<Product products={products} />
+			</Route>
+
+      <Route exact path={`/orders/:id`}>
+				<Product orders={orders} />
 			</Route>
 
 			<Route exact path='/register'>

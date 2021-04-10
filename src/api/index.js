@@ -28,6 +28,15 @@ export async function getProductById(id) {
 	}
 }
 
+export async function getOrderById(id) {
+	try{
+		const {data} = await axios.get(`/api/orders/${id}`)
+		return data;
+	}catch(error) {
+		throw error;
+	}
+}
+
 export async function login({username, password}) {
 
 	try{
