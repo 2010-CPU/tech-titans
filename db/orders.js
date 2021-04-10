@@ -89,10 +89,13 @@ const getOrdersByProduct = async ({ id }) => {
 };
 
 const getCartByUser = async ({id}) => {
-	console.log(id, 'this is the id')
+	try{
 	const orders = await getOrdersByUser({id});
 	const cart = orders.filter(order => order.status === 'created')
 	return cart;
+	}catch(error){
+		throw error;
+	}
 	
 };
 getCartByUser({id: 2}).then(console.log)
