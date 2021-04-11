@@ -17,6 +17,8 @@ import{
   Register,
 	Login,
 	MyAccount,
+	Order,
+	Orders
 } from './';
 
 const App = () => {
@@ -82,7 +84,11 @@ const App = () => {
 			</Route>
 
       <Route exact path={`/orders/:id`}>
-				<Product orders={orders} />
+				<Order orders={orders} setOrders={setOrders}/>
+			</Route>
+
+			<Route exact path={`/orders`}>
+				<Orders orders={orders} setOrders={setOrders}/>
 			</Route>
 
 			<Route exact path='/register'>

@@ -28,17 +28,17 @@ export async function getProductById(id) {
 	}
 }
 
-// export async function getOrderById(id) {
-// 	console.log('this is the getOrderByIdFunction')
-// 	try{
-// 		const {data} = await axios.get(`/api/orders/${id}`)
-// 		console.log(data)
-// 		return data;
-// 	}catch(error) {
-// 		throw error;
-// 	}
-// }
-// getOrderById(1);
+export async function getOrderById(id) {
+	console.log('this is the getOrderByIdFunction')
+	try{
+		const {data} = await axios.get(`/api/orders/${id}`)
+		console.log(data)
+		return data;
+	}catch(error) {
+		throw error;
+	}
+}
+getOrderById(1);
 
 export async function login({username, password}) {
 
