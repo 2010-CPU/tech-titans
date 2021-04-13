@@ -1,29 +1,41 @@
+import { cancelOrder } from "../api"
 
-// const CancelOrder = () => {
+const CancelCompleteOrder = () => {
+    console.log('is there anybody out there????????????')
 
-// function handleCancel (orderId) {
-//     console.log("i am starting to cancel")
-//     if(!orderId) {
-//         return "There is no order to cancel"
-//     }else{
-//         orderId.status = "cancelled"
-//         return "Your order has been cancelled"
-//     }
+const handleCancel = async (orderId) => {
+    console.log('I am starting to delete')
+    if(!orderId) {
+        return alert("There is no order to delete")
+    }else{
+    try{
+        await cancelOrder(orderId)
+    }catch(error){
+        throw error;
+    }
+    }
+}
 
-// }
 
-// handleCancel()
+handleCancel()
+.then(console.log)
 
 
-// const handleComplete = (orderId) => {
-//     if(!orderId) {
-//         return "there is no order to complete"
-//     }else {
-//         orderId.status = "completed"
-//         return "Your order is complete!"
-//     }
-// }
+const handleComplete = (orderId) => {
+    console.log('I am starting to handle the complete order')
+    if(!orderId) {
+        return alert("there is no order to complete")
+    }else {
+        orderId.status = "completed"
+        return alert("Your order is complete!")
+    }
+}
 
-// };
+handleComplete();
 
-// export default CancelOrder;
+
+};
+
+CancelCompleteOrder()
+
+export default CancelCompleteOrder;

@@ -19,7 +19,7 @@ import{
 	MyAccount,
 	Order,
 	Orders,
-	CancelOrder
+	CancelCompleteOrder
 } from './';
 
 const App = () => {
@@ -96,6 +96,11 @@ const App = () => {
 			
 			<Route exact path ='/orders'>
 				<Orders orders={orders} setOrders={setOrders} />
+			</Route>
+
+			
+			<Route exact path ='/orders/:orderId'>
+				<CancelCompleteOrder token={token} />
 			</Route>
 
 			

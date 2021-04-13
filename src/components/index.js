@@ -9,4 +9,4 @@ export {default as Register} from './Register';
 export {default as MyAccount} from './MyAccount';
 export {default as Orders} from './Orders';
 export {default as Order} from './Order';
-export {default as CancelOrder} from './CancelOrder';
+export {default as CancelCompleteOrder} from './CancelOrder';
