@@ -90,3 +90,18 @@ export async function getOrdersByUser(user, token) {
 		throw error;
 	}
 }
+
+export async function cancelOrder(orderId) {
+	try{
+		const {data} = await axios.delete(`/api/orders/${order.id}`, {
+			headers: {
+				Authorization : `Bearer ${token}`
+			}
+		});
+		console.log(data, 'I am going to delete the data, and hopefully just the data')
+		data = null;
+		
+	}catch(error) {
+		throw error;
+	}
+}

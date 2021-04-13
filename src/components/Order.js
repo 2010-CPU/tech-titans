@@ -4,7 +4,7 @@ import { getOrderById } from '../api';
 
 
 const Order = ({order}) => {
-
+	console.log(order, 'oooooooooooooooooorrrrrrrrrrrrrrrrrder')
 	return <div>
 	
 		<div>THIS WILL BE ONE ORDER</div>
