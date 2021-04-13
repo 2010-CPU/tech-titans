@@ -1,10 +1,9 @@
-import { cancelOrder } from "../api"
+import { cancelOrder, completeOrder } from "../api"
 
 const CancelCompleteOrder = () => {
     console.log('is there anybody out there????????????')
 
-const handleCancel = async (orderId) => {
-    console.log('I am starting to delete')
+    const handleCancel = async (orderId) => {
     if(!orderId) {
         return alert("There is no order to delete")
     }else{
@@ -17,21 +16,21 @@ const handleCancel = async (orderId) => {
 }
 
 
-handleCancel()
-.then(console.log)
+handleCancel(1)
 
 
-const handleComplete = (orderId) => {
+const handleComplete = async(ev, orderId) => {
+    ev.preventDefault();
     console.log('I am starting to handle the complete order')
     if(!orderId) {
         return alert("there is no order to complete")
     }else {
-        orderId.status = "completed"
-        return alert("Your order is complete!")
+       await completeOrder(orderId)
     }
 }
 
-handleComplete();
+handleComplete(1)
+
 
 
 };

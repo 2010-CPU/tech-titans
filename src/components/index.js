@@ -10,3 +10,4 @@ export {default as MyAccount} from './MyAccount';
 export {default as Orders} from './Orders';
 export {default as Order} from './Order';
 export {default as CancelCompleteOrder} from './CancelOrder';
+export {default as Cart} from './Cart';

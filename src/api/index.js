@@ -91,32 +91,43 @@ export async function getOrdersByUser(user, token) {
 	}
 }
 
-export async function cancelOrder(order, token) {
+
+export async function getCart(token) {
 	try{
-		const {data} = await axios.delete(`/api/orders/${order.id}`, {
+		const {data} = await axios.get(`api/orders/cart`, {
 			headers: {
 				Authorization : `Bearer ${token}`
 			}
 		});
-		console.log(data, 'I am going to delete the data, and hopefully just the data')
-		// data = null;
-		
-	}catch(error) {
-		throw error;
+	      }catch(error){
+			throw error;
+		}
 	}
-}
+
+		export async function cancelOrder(order, token) {
+			try{
+				const {data} = await axios.delete(`/api/orders/${order.id}`, {
+	        	// data = null;
+				});
+	          }catch(error) {
+		        throw error;
+			}
+        }
+		
 
 export async function completeOrder(order, token) {
 	try{
 		const {data} = await axios.patch(`api/orders/${order.id}`, {
 			headers: {
 				Authorization : `Bearer ${token}`
-			}
+			},
+			body: JSON.stringify({
+				status = "completed"
+			})
 		});
-		console.log(data, "I am going to update the data and only the one piece of data")
-		data.status = "completed"
-		return data
-	}catch(error) {
+    }catch(error) {
 		throw error;
-	}
-}
+	  };
+};
+	
+

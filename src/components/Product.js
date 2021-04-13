@@ -36,6 +36,7 @@ const Product = ({products, product}) => {
 				<li>description: {product.description}</li>
 				<li>in stock? {product.inStock ? 'yes' : 'no' }</li>
 				<li>price: ${product.price}</li>
+				<button>Add to Cart</button>
 			</ul>
 		</>
 	}else{
