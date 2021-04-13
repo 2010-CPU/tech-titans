@@ -3,7 +3,7 @@ import {Link, useHistory, useParams} from 'react-router-dom';
 import { getOrderById } from '../api/index.js';
 
 
-const Order = () => {
+const Order = ({order, orders}) => {
 	const {id} = useParams();
 	console.log(id, 'this is  the id')
 	const [singleOrder, setSingleOrder ] = useState({});
@@ -33,6 +33,19 @@ const Order = () => {
 		}
 	}, [id])
 
+	if(order){
+		return <>
+			<h3 className='products-list-name'>
+				<Link to={`/orders/${order.id}`}> Order No:   {order.id} </Link>
+			</h3>
+			<ul>
+			<h3>Product id: {order.productId}</h3>
+			<h3>Price:  {order.price}</h3>
+			<h3>Quantity {order.quantity}</h3>
+		
+			</ul>
+		</>
+	}else{
 
 console.log(singleOrder, 'SSSSSSSSSSSSSSSSSSSSingleOOOOOOOOOOOOOOrder')
 console.log(singleOrder.products, '***************************')
@@ -72,7 +85,7 @@ const productOrdered = () => {
 				</div>	
 
 			
-		
+	};		
 
 };
 
