@@ -122,7 +122,7 @@ export async function completeOrder(order, token) {
 				Authorization : `Bearer ${token}`
 			},
 			body: JSON.stringify({
-				status = "completed"
+				status: "completed"
 			})
 		});
     }catch(error) {

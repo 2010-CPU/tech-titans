@@ -19,8 +19,7 @@ const CancelCompleteOrder = () => {
 handleCancel(1)
 
 
-const handleComplete = async(ev, orderId) => {
-    ev.preventDefault();
+const handleComplete = async(orderId) => {
     console.log('I am starting to handle the complete order')
     if(!orderId) {
         return alert("there is no order to complete")
