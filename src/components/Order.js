@@ -8,32 +8,32 @@ const Order = ({order}) => {
 		return <div>NO ORDER</div>
 	}
 
-	
-    // const handleCancel = async (orderId) => {
-	// 	console.log(orderId, 'orderid')
-	// 	orderId = order.id;
-	// 	console.log(orderId, 'assigned order id')
-    //     console.log("I am starting to delete the order")
-    // 		if(!orderId) {
-    //     	return alert("There is no order to delete")
-    // 			}else{
-    // 				try{
-    //    					 await cancelOrder(orderId)
-    // 				}catch(error){
-    //     			throw error;
-   	// 			    }
-    // 			}
-	// }
+	console.log(order.id, "##################################")
+    const handleCancel = async (orderId) => {
+		console.log(orderId, 'orderid')
+		orderId = order.id;
+		console.log(orderId, 'assigned order id')
+        console.log("I am starting to delete the order")
+    		if(!orderId) {
+        	return alert("There is no order to delete")
+    			}else{
+    				try{
+       					 await cancelOrder(orderId)
+    				}catch(error){
+        			throw error;
+   				    }
+    			}
+	}
 
 
-	// 	const handleComplete = async(orderId) => {
-	// 		console.log('I am starting to handle the complete order')
-	// 		if(!orderId) {
-	// 			return alert("there is no order to complete")
-	// 		}else {
-	// 		await completeOrder(orderId)
-	// 		}
-	// 	}
+		const handleComplete = async(orderId) => {
+			console.log('I am starting to handle the complete order')
+			if(!orderId) {
+				return alert("there is no order to complete")
+			}else {
+			await completeOrder(orderId)
+			}
+		}
 
 
 	return <div>
@@ -43,7 +43,8 @@ const Order = ({order}) => {
 			<h3>Date Placed: {order.datePlaced}</h3>
 			<h3>Status: {order.status}</h3>
 			<h3>Products:</h3>
-			{/* <button onSubmit = {handleCancel}>Cancel Order</button><button onSubmit = {handleComplete(order.id)}>Complete Order</button> */}
+			<button>Cancel Order</button>
+			<button>Complete Order</button>
 			<ul>
 				{order.products && order.products.map(product => {
 					return <div className='order-product' key={product.id}>
