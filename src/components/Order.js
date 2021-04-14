@@ -55,7 +55,8 @@ const productOrdered = () => {
 	if(!singleOrder.products) {
 		return;
 	}else{
-		singleOrder.products.map(product => {
+	
+		return singleOrder.products.map(product => {
 			console.log(product, '88888888888888888888888')
 			return <div>
 				<h1>RETURN</h1>
@@ -76,7 +77,7 @@ const productOrdered = () => {
 				<li>DATE PLACED:     ${singleOrder.datePlaced}</li>
 				
 			</ul>
-			<h2>Products Ordered: {productOrdered} </h2>
+			<h2>Products Ordered: {productOrdered()} </h2>
 
 
 
