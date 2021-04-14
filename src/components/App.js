@@ -100,7 +100,7 @@ const App = () => {
 
 			
 			<Route exact path ='/orders/:orderId'>
-				<CancelCompleteOrder token={token} />
+				<CancelCompleteOrder token={token} orders={orders}/>
 			</Route>
 
 			

@@ -1,9 +1,12 @@
 import { cancelOrder, completeOrder } from "../api"
 
 const CancelCompleteOrder = () => {
+  
+
     console.log('is there anybody out there????????????')
 
     const handleCancel = async (orderId) => {
+        console.log("I am starting to delete the order")
     if(!orderId) {
         return alert("There is no order to delete")
     }else{
@@ -19,7 +22,7 @@ const CancelCompleteOrder = () => {
 handleCancel(1)
 
 
-const handleComplete = async(orderId) => {
+const handleComplete = async({orderId}) => {
     console.log('I am starting to handle the complete order')
     if(!orderId) {
         return alert("there is no order to complete")
