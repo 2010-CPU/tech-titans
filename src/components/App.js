@@ -4,7 +4,6 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import {
   getSomething,
   getAllProducts,
-  getCart,
 } from '../api';
 
 import{
@@ -18,7 +17,6 @@ import{
 	MyAccount,
 	Order,
 	Orders,
-	Cart,
 } from './';
 
 const App = () => {
@@ -42,11 +40,7 @@ const App = () => {
 		}
 	});
 	const [orders, setOrders] = useState([]);
-
-	const [cart, setCart] = useState({products: []});
-
-	// local storage: 
-	// else { return DEFAULT VALUE}
+	console.log('orders from state, ', orders);
 	
 	const fetchAndSetProducts = async () => {
 		try{
@@ -56,18 +50,6 @@ const App = () => {
     catch(error){
     	console.log(error)
     }
-	};
-	const fetchAndSetCart = async (token) => {
-		try{
-			if (!token){
-				return
-			}
-			const queriedCart = await getCart(token);
-			setCart(queriedCart);
-		}
-		catch(error){
-			console.log(error);
-		}
 	};
 	
 	
@@ -80,21 +62,21 @@ const App = () => {
         setMessage(error.message);
       });
 		fetchAndSetProducts();
-		fetchAndSetCart(token);
-  }, [token]);
+  }, []);
 
   return <>
     <Header token={token} setToken={setToken} user={user} setUser={setUser}/>
 
     <div className="bulk">
       
+      <h1>Hello, {user.username}!</h1>
 
       <Route exact path='/products'>
-      	<Products token={token} products={products} setProducts={setProducts} cart={cart} setCart={setCart}/>
+      	<Products products={products} setProducts={setProducts}/>
       </Route>
 
 			<Route exact path={`/products/:id`}>
-				<Product token={token} products={products} />
+				<Product products={products} />
 			</Route>
 
 			<Route exact path='/register'>
@@ -114,9 +96,6 @@ const App = () => {
 			
 			<Route exact path ='/orders/:orderId'>
 				<Order />
-			</Route>
-			<Route exact path ='/cart'>
-				<Cart cart={cart} setCart={setCart} token={token}/>
 			</Route>
 			
     </div>
