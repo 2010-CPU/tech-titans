@@ -1,49 +1,66 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const {JWT_SECRET = "neverTell"} = process.env
+const {JWT_SECRET = "don't tell a soul"} = process.env
 const express = require('express');
 const usersRouter = express.Router();
-const { requireUser } = require('./utils');
+const { requireUser, requireAdmin } = require('./utils');
 
 const {
   getUserByUsername,
   getUser,
   getAllUsers,
+  getUserById,
 } = require('../db/users');
 
 const {
 	createUser,
 } = require('../db/index');
+const { response } = require('express');
+const { getOrdersByUser} = require('../db/orders')
 
+
+usersRouter.get('/', requireUser, requireAdmin, async (req, res, next) => {
+	const users = await getAllUsers();
+	res.send(users);
+});
+
+usersRouter.get('/me', requireUser, async (req, res, next) => {
+  const {user} = req;
+    try{
+      res.send(user);
+    }catch(err){
+      throw(err);
+    }
+});
 
 
 usersRouter.post('/register', async (req, res, next) => {
     const {username, password} = req.body;
     try {
-        const checkUser = await getUserByUsername(username);
-        if (checkUser) {
-            throw new Error ('A user by that username already exists.')
-        }
-        if (password.length < 8) {
-            throw new Error ('Passwords must be at least 8 characters long')
-        }
+      const checkUser = await getUserByUsername(username);
+      if (checkUser) {
+          throw new Error ('A user by that username already exists.')
+      }
+      if (password.length < 8) {
+          throw new Error ('Passwords must be at least 8 characters long')
+      }
 
-        const user = await createUser(req.body)
+      const user = await createUser(req.body)
 
-        const token = jwt.sign({
-            id: user.id,
-            username : user.username
-        }, JWT_SECRET, {
-            expiresIn: '1w'
-        });
-        res.send({
-            user,
-            token,
-            message: 'Registered successfully'
-        });
-    } catch (error) {
-        next(error);
-    }
+      const token = jwt.sign({
+		    id: user.id,
+		    username : user.username
+      }, JWT_SECRET, {
+        expiresIn: '1w'
+      });
+      res.send({
+        user,
+        token,
+        message: 'Registered successfully'
+      });
+  } catch (error) {
+    next(error);
+  }
 });
 
 usersRouter.post('/login', async(req, res, next) => {
@@ -70,6 +87,23 @@ usersRouter.post('/login', async(req, res, next) => {
         next(error)
     }
 });
+
+usersRouter.get('/:userId/orders', requireUser, async(req,res,next) =>{
+  try {
+    const { userId } = req.params;
+    console.log('USER ID PARAMS:', userId, 'USER REQ:', req.user);
+    if(req.user.id === userId*1) {
+      const orders = await getOrdersByUser({id: userId});
+      res.send(orders);
+    }
+    else{
+    	res.send({message: 'not your order'});
+    }
+  } catch (error) {
+    next(error)
+  }
+});
+
 
 
 

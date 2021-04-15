@@ -3,17 +3,47 @@ import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 import {
   getSomething,
-  getAllProducts
+  getAllProducts,
+  getCart,
 } from '../api';
 
 import{
-Products,
-Product,
+  Header,
+  Home,
+  Products,
+  Product,
+  Footer,
+  Register,
+	Login,
+	MyAccount,
+	Order,
+	Orders,
+	Cart,
 } from './';
 
 const App = () => {
   const [message, setMessage] = useState('');
   const [products, setProducts] = useState([]);
+	const [token, setToken] = useState( () => {
+		if (localStorage.getItem('token')) {
+			return localStorage.getItem('token')
+		} else {
+			return ''
+		}
+	});
+	const [user, setUser] = useState( () => {
+		if (localStorage.getItem('user')) {
+			const user = localStorage.getItem('user');
+			const userObj = JSON.parse(user);
+			return userObj;
+		}
+		else{
+			return {};
+		}
+	});
+	const [orders, setOrders] = useState([]);
+
+	const [cart, setCart] = useState({products: []});
 
 	const fetchAndSetProducts = async () => {
 		try{
@@ -23,6 +53,20 @@ const App = () => {
     catch(error){
     	console.log(error)
     }
+	};
+	const fetchAndSetCart = async (token) => {
+		try{
+			if (!token){
+				return
+			}
+			const queriedCart = await getCart(token);
+			if(queriedCart){
+				setCart(queriedCart);
+			}
+		}
+		catch(error){
+			console.log(error);
+		}
 	};
 	
 	
@@ -35,22 +79,52 @@ const App = () => {
         setMessage(error.message);
       });
 		fetchAndSetProducts();
-  }, []);
+		fetchAndSetCart(token);
+  }, [token]);
 
-  return (
-  <Router>
-    <div className="App">
-      <h1>Hello, World!</h1>
-      <h2>{ message }</h2>
-      <Route exact path='/products'>
-      	<Products products={products} setProducts={setProducts}/>
-      </Route>
+  return <>
+    <Header token={token} setToken={setToken} user={user} setUser={setUser}/>
+
+    <div className="bulk">
+
+			<Route exact path='/'>
+				{<Home user={user} />}
+			</Route>
+			<Route exact path='/products'>
+				<Products token={token} products={products} setProducts={setProducts} cart={cart} setCart={setCart}/>
+			</Route>
+
 			<Route exact path={`/products/:id`}>
-				<Product products={products} />
+				<Product token={token} products={products} />
+			</Route>
+
+			<Route exact path='/register'>
+				<Register setToken={setToken} setUser={setUser}/>
+			</Route>
+
+			<Route exact path='/login'>
+				<Login setToken={setToken} setUser={setUser}/>
+			</Route>
+
+			<Route exact path ='/myaccount'>
+				<MyAccount token={token} user={user} orders={orders} setOrders={setOrders} />
+			</Route>
+			
+			<Route exact path ='/orders'>
+				<Orders orders={orders} setOrders={setOrders} token={token} user={user} setCart= {setCart}/>
+			</Route>
+			
+			<Route exact path ='/orders/:orderId'>
+				<Order token = {token} setCart= {setCart} />
+			</Route>
+
+			<Route exact path ='/cart'>
+				<Cart cart={cart} setCart={setCart} token={token} fetchAndSetCart={fetchAndSetCart}/>
 			</Route>
     </div>
-  </Router>
-  );
+
+    <Footer/>
+  </>
 }
 
 export default App;

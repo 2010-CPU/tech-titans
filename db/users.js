@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 const getUserByUsername = async (username) => {
   try {
     const { rows: [user] } = await client.query(`
-		  SELECT id, username
+		  SELECT id, username, "isAdmin"
 		  FROM users
 		  WHERE username=$1;
     `, [username]);
@@ -22,13 +22,17 @@ const getUser = async ({username, password}) => {
         	FROM users
         	WHERE username=$1;
         `, [username]);
-
-        const hashedPassword = user.password;
-        const passwordsMatch = await bcrypt.compare(password, hashedPassword);
-        if (passwordsMatch){
-            const returnObj = { username: user.username, id: user.id };
-            return returnObj;
-        } 
+				if(user){
+		      const hashedPassword = user.password;
+		      const passwordsMatch = await bcrypt.compare(password, hashedPassword);
+		      if (passwordsMatch){
+		          const returnObj = { username: user.username, id: user.id };
+		          return returnObj;
+		      } 
+      	}
+      	else{
+      		throw 'no user with those credentials';
+      	}
     } catch (error) {
         throw error
     }  
@@ -46,6 +50,7 @@ const getUserById = async (id) => {
         throw error;
     }
 };
+
 
 const getAllUsers = async () => {
     try {
