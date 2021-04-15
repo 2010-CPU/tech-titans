@@ -40,8 +40,9 @@ const App = () => {
 		}
 	});
 	const [orders, setOrders] = useState([]);
-	console.log('orders from state, ', orders);
-	
+
+	const [cart, setCart] = useState({products: []});
+
 	const fetchAndSetProducts = async () => {
 		try{
 		  const queriedProducts = await getAllProducts();
