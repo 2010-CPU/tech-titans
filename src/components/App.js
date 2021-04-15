@@ -70,7 +70,7 @@ const App = () => {
 
     <div className="bulk">
       
-      <h1>Hello, {user.username}!</h1>
+      {token ? <h1>Hello, {user.username}!</h1> : <h1>Welcome!</h1>}
 
       <Route exact path='/products'>
       	<Products products={products} setProducts={setProducts}/>
@@ -99,6 +99,9 @@ const App = () => {
 				<Order />
 			</Route>
 			
+			<Route exact path = '/cart'>
+				<Cart cart={cart} setCart={setCart} token={token}/>
+			</Route>
     </div>
 
     <Footer/>
