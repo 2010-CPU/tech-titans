@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import { getOrderById, cancelOrder, completeOrder } from '../api';
 
-const Order = ({order}) => {
+const Order = ({order, type}) => {
 
 	if (!order){
 		return <div>NO ORDER</div>
@@ -43,8 +43,8 @@ const Order = ({order}) => {
 			<h3>Date Placed: {order.datePlaced}</h3>
 			<h3>Status: {order.status}</h3>
 			<h3>Products:</h3>
-			<button>Cancel Order</button>
-			<button>Complete Order</button>
+			{type === 'cart' ? <button onClick = {handleCancel}>Cancel Order</button> : ''}
+			{type === 'cart' ? <button>Complete Order</button>  : ''}
 			<ul>
 				{order.products && order.products.map(product => {
 					return <div className='order-product' key={product.id}>
