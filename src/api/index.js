@@ -1,4 +1,8 @@
 import axios from 'axios';
+import { loadStripe } from '@stripe/stripe-js';
+const stripePromise = loadStripe('pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy');
+const stripe = require('stripe')('sk_test_51IgfNNBiothv58cf1OMUUdoXVz5akce35IHlHHrfkcz3hmB2jq3HPYomKuN9Ed8D242645yU8KyqmIPFsrABUDbM00YcTM2dDt')
+
 
 export async function getSomething() {
   try {
@@ -175,3 +179,37 @@ export async function removeFromCart(orderProductId){
 		throw error;
 	}
 }
+
+// export async function swipeRedirect(){
+// 	const stripe = await stripePromise;
+
+// 	try {
+// 		const  {session} = await axios.post('/create-checkout-session', {})
+// 		const result = await stripe.redirectToCheckout({
+// 			sessionId: session.id,
+// 		  });
+// 		  console.log(result, 'this is the session')
+// 		}catch(error){
+// 			throw error
+// 		}
+// };
+
+
+
+// export async function swipeRedirect () {
+// 	 const response = await fetch('/create-checkout-session', { method: 'POST' });
+
+//     const session = await response.json();
+
+//     // When the customer clicks on the button, redirect them to Checkout.
+//     const result = await stripe.redirectToCheckout({
+//       sessionId: session.id,
+//     });
+
+//     if (result.error) {
+//       // If `redirectToCheckout` fails due to a browser or network
+//       // error, display the localized error message to your customer
+//       // using `result.error.message`.
+// 	  console.error(result.error.message)
+//     }
+//   };
