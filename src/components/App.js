@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+
 
 import {
   getSomething,
@@ -19,7 +22,11 @@ import{
 	Order,
 	Orders,
 	Cart,
+	CheckoutForm
 } from './';
+
+const STRIPE_PUBLISHABLE_KEY = 'pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy'
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 const App = () => {
   const [message, setMessage] = useState('');
@@ -121,6 +128,10 @@ const App = () => {
 			<Route exact path ='/cart'>
 				<Cart cart={cart} setCart={setCart} token={token} fetchAndSetCart={fetchAndSetCart}/>
 			</Route>
+			
+			<Elements stripe={stripePromise}>
+            <CheckoutForm />
+          </Elements>
     </div>
 
     <Footer/>

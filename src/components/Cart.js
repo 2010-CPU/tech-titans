@@ -6,7 +6,10 @@ import { getCart } from '../api';
 
 
 const Cart = ({cart, setCart, token, fetchAndSetCart}) => {
-	return <Order order={cart} type={'cart'} fetchAndSetCart={fetchAndSetCart} token={token} setCart={setCart}/>
+	return <>
+	<Order order={cart} type={'cart'} fetchAndSetCart={fetchAndSetCart} token={token} setCart={setCart}/>
+    <button role="link">Checkout</button>
+	</>
 };
 
 export default Cart;
