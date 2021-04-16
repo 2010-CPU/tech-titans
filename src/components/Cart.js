@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import {Order} from './';
+import {Order, TakeMoney} from './';
 import { getCart, swipeRedirect } from '../api';
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy');
-
+const stripekey = 'pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy'
 
 
 const Cart = ({cart, setCart, token, fetchAndSetCart}) => {
@@ -28,7 +28,7 @@ const Cart = ({cart, setCart, token, fetchAndSetCart}) => {
 	//   };
 	return <>
 	<Order order={cart} type={'cart'} fetchAndSetCart={fetchAndSetCart} token={token} setCart={setCart}/>
-	<button role="link" onClick = {handlePay}> Checkout </button>
+	<TakeMoney token={token} />
 	</>
 };
 
