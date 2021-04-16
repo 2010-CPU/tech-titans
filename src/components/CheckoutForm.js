@@ -9,12 +9,13 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy');
 
 function CheckoutForm() {
-    
+
   const handleClick = async (event) => {
     // Get Stripe.js instance
     const stripe = await stripePromise;
 
     // Call your backend to create the Checkout Session
+    // THIS WILL PROBABLY NEED TO BE MOVED TO THE AXIOS EVENTUALLY
     const response = await fetch('/create-checkout-session', { method: 'POST' });
 
     const session = await response.json();
