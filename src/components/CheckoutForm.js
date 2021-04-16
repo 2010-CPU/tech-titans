@@ -4,37 +4,84 @@ import {Link, useHistory, useParams} from 'react-router-dom';
 import Product from "./Product";
 import ReactDOM from 'react-dom';
 import { loadStripe } from '@stripe/stripe-js';
+import { useStripe, useElements} from '@stripe/react-stripe-js';
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe('pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy');
+// import {CardElement} from '@stripe/react-stripe-js';
 
-function CheckoutForm() {
 
-  const handleClick = async (event) => {
-    // Get Stripe.js instance
-    const stripe = await stripePromise;
+// ****************************************************************************************************************************************
 
-    // Call your backend to create the Checkout Session
-    // THIS WILL PROBABLY NEED TO BE MOVED TO THE AXIOS EVENTUALLY
-    const response = await fetch('/create-checkout-session', { method: 'POST' });
 
-    const session = await response.json();
 
-    // When the customer clicks on the button, redirect them to Checkout.
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
 
-    if (result.error) {
-      // If `redirectToCheckout` fails due to a browser or network
-      // error, display the localized error message to your customer
-      // using `result.error.message`.
+
+
+{/* <CardElement
+options={{
+    style: {
+    base: {
+        fontSize: '16px',
+        color: '#424770',
+        '::placeholder': {
+        color: '#aab7c4',
+        },
+    },
+    invalid: {
+        color: '#9e2146',
+    },
+    },
+}}
+/> */}
+
+const CheckoutForm = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+                
+
+              
+
+  const handleSubmit = async (event) => {
+    // Block native form submission.
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable
+      // form submission until Stripe.js has loaded.
+      return;
+    }
+
+    // Get a reference to a mounted CardElement. Elements knows how
+    // to find your CardElement because there can only ever be one of
+    // each type of element.
+    const cardElement = elements.getElement(CardElement);
+
+
+ 
+
+        // Use your card Element with other Stripe.js APIs
+        const {error, paymentMethod} = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+          });
+
+    if (error) {
+      console.log('[error]', error);
+    } else {
+      console.log('[PaymentMethod]', paymentMethod);
     }
   };
 
   return (
-    <button role="link" onClick={handleClick}>
-      Checkout
-    </button>
+    <form onSubmit={handleSubmit}>
+      <CardElement />
+      <button type="submit" disabled={!stripe}>
+        Pay
+      </button>
+    </form>
   );
-}
+};
+
+export default CheckoutForm;
