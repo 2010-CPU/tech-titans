@@ -25,6 +25,7 @@ const Order = ({order, type, token, setCart, cart, fetchAndSetCart}) => {
 			try{
 				await completeOrder(order.id, token)
 				setCart(resetCartObj)
+				alert("Mail check")
 			}catch(error){
 				throw error;
 			}
