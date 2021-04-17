@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {Link, useHistory, useParams} from 'react-router-dom';
+import React, {useState} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import { register } from '../api/index.js';
 
 const Register = ({setUser, setToken}) => {
@@ -24,7 +24,6 @@ const Register = ({setUser, setToken}) => {
 				password,
 				imageURL
   		});
-			console.log('REGISTER DATA', userData);
 			localStorage.setItem('token', userData.token);
 			localStorage.setItem('user', userData.user);
 			setToken(userData.token);
@@ -55,7 +54,7 @@ const Register = ({setUser, setToken}) => {
 				<br />
 				<input type='text' value={imageURL} onChange={(ev) => setImageURL(ev.target.value)} placeholder="image url"></input>
 				<br />
-				<button type="submit">Login</button>
+				<button type="submit">Register</button>
 			</form>
 			<Link to='/login'>have an account? login here!</Link>
 		</div>

@@ -122,7 +122,6 @@ export async function createOrder(token) {
 
 export async function addToCart(cartId, product, token) {
 	try{
-		console.log('/api/index.js THE ADDTOOCART FUNCTION NEEDS ADD AN ORDER TO THE CART WITH AN AXIOS CALL', cartId, product, token);
 		const {data} = await axios.post(`api/orders/${cartId}/products`, {
 			productId: product.id, 
 			price: product.price, 
@@ -145,8 +144,9 @@ export async function cancelOrder(order, token) {
 			headers: {
 				Authorization : `Bearer ${token}`
 			}
-		// data = null;
+		
 		});
+		return data;
 	  }catch(error) {
 		throw error;
 	}
@@ -154,17 +154,17 @@ export async function cancelOrder(order, token) {
 
 export async function completeOrder(order, token, orderId) {
 
-try{
-const {data} = await axios.patch(`api/orders/${order}`, {status : 'completed'}, {
-	headers: {
-		Authorization : `Bearer ${token}`
-	},	
+	try{
+		const {data} = await axios.patch(`api/orders/${order}`, {status : 'completed'}, {
+			headers: {
+				Authorization : `Bearer ${token}`
+			},	
 
-})
-
-}catch(error) {
-throw error;
-}
+		})
+		return data;
+	}catch(error) {
+		throw error;
+	}
 }
 
 

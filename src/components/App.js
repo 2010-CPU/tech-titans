@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import {
   getSomething,
   getAllProducts,
   getCart,
+  getProductById,
+  getOrdersByUser,
 } from '../api';
 
 import{
@@ -54,6 +56,26 @@ const App = () => {
     	console.log(error)
     }
 	};
+	
+	const fetchAndSetOrders = async (user, token) => {
+		try{
+			const queriedOrders = await getOrdersByUser(user, token);
+			if(queriedOrders){
+				queriedOrders.forEach(async order => {
+					for(let i = 0; i< order.products.length; i++){
+						const curr = order.products[i];
+						const currId = await getProductById(curr.productId);
+						curr.name = currId.name;
+					};
+				});
+				setOrders(queriedOrders);
+			}
+		}
+		catch(error){
+			console.log(error);
+		}
+	};
+	
 	const fetchAndSetCart = async (token) => {
 		try{
 			if (!token){
@@ -61,6 +83,11 @@ const App = () => {
 			}
 			const queriedCart = await getCart(token);
 			if(queriedCart){
+				for(let i = 0; i < queriedCart.products.length; i++){
+					const curr = queriedCart.products[i];
+					const currId = await getProductById(curr.productId);
+					curr.name = currId.name;
+				};
 				setCart(queriedCart);
 			}
 		}
@@ -79,8 +106,9 @@ const App = () => {
         setMessage(error.message);
       });
 		fetchAndSetProducts();
+		fetchAndSetOrders(user, token);
 		fetchAndSetCart(token);
-  }, [token]);
+  }, [token, user]);
 
   return <>
     <Header token={token} setToken={setToken} user={user} setUser={setUser}/>

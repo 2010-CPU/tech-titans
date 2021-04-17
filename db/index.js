@@ -125,7 +125,56 @@ const createInitialProducts = async () => {
 				price: 20000000,
 				imageUrl: 'placeholder',
 				inStock: true,
-				category:  'rare things' }
+				category:  'rare things' },
+				
+				{ 	name: 'fish fries',
+				description: "LOOKS LIKE A FRY, TASTES LIKE A FISH!",
+				price: 15,
+				imageUrl: 'placeholder',
+				inStock: true,
+				category:  'possibly edible things'},
+				{ 	name: 'invisible hat',
+				description: "IT WOULD BE BEAUTIFUL IF YOU COULD SEE IT!",
+				price: 10,
+				imageUrl: 'placeholder',
+				inStock: false,
+				category:  'wearable thing'},
+				{ 	name: 'cat costume',
+				description: "GOOD LUCK WITH THIS ONE!",
+				price: 18,
+				imageUrl: 'placeholder',
+				inStock: false,
+				category:  'wearable things'},
+				{ 	name: 'mustard bread',
+				description: "SANDWICHES MADE EASIER!",
+				price: 2000,
+				imageUrl: 'placeholder',
+				inStock: true,
+				category:  'possibly edible things'},
+				{ 	name: 'square rolling pin',
+				description: "DECORATIVE PURPOSES ONLY!",
+				price: 50,
+				imageUrl: 'placeholder',
+				inStock: false,
+				category:  'weird things'},
+				{ 	name: 'wooden saw',
+				description: "OH, THE IRONY!",
+				price: 2000,
+				imageUrl: 'placeholder',
+				inStock: true,
+				category:  'weird things'},
+				{ 	name: 'banana slicer',
+				description: "BECAUSE BANANAS ARE TOUGH LITTLE THINGS!",
+				price: 2000,
+				imageUrl: 'placeholder',
+				inStock: true,
+				category:  'kitchen things'},
+				{ 	name: 'Nicholas Cage pillow',
+				description: "EVERYONE NEEDS THIS!",
+				price: 2000,
+				imageUrl: 'placeholder',
+				inStock: false,
+				category:  'wearable things'},
 		];
 		
 		const products = await Promise.all(productsToCreate.map(createProduct));
@@ -218,7 +267,6 @@ const createOrder = async ({userId, status}) => {
 		VALUES ($1, $2)
 		RETURNING *;
 		`, [userId, status]);
-		console.log('order: ', order);
 		return order;
 	}catch(error){
 		throw error;
@@ -234,31 +282,28 @@ const createInitialOrders = async () => {
 				userId: 2
 			},
 			{
-				status: 'placed',
+				status: 'cancelled',
 				userId: 3
 			},
 			{
-				status: 'submitted',
+				status: 'cancelled',
 				userId: 1
 			}
 		];
 		
 		const orders = await Promise.all(ordersToCreate.map(createOrder));
-		console.log('test orders: ', orders);
 	}catch(error){
 		throw error;
 	}
 };
 
 const createOrderProduct = async ({productId, orderId, price, quantity}) => {
-	console.log('creating order_products...');
 	try{
 		const {rows: [order_product]} = await client.query(`
 		INSERT INTO order_products("productId", "orderId", price, quantity)
 		VALUES ($1, $2, $3, $4)
 		RETURNING *;
 		`, [productId, orderId, price, quantity]);
-		console.log('order_product: ', order_product);
 		return order_product;
 	}catch(error){
 		throw error;
