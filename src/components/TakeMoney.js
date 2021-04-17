@@ -1,9 +1,31 @@
 import React from 'react'
 import StripeCheckout from 'react-stripe-checkout';
+import { loadStripe } from '@stripe/stripe-js';
+import Stripe from 'stripe';
+const stripe = require('stripe')(process.env.PUBLISHABLE_KEY)
+const stripePromise = loadStripe(process.env.PUBLISHABLE_KEY);
 
  
 const TakeMoney = ({token}) => {
-  const stripeKey = 'sk_test_51IgfNNBiothv58cf1OMUUdoXVz5akce35IHlHHrfkcz3hmB2jq3HPYomKuN9Ed8D242645yU8KyqmIPFsrABUDbM00YcTM2dDt'
+
+
+fetch('/create-checkout-session', {
+  method: 'POST',
+})
+.then(function(response) {
+  return response.json();
+})
+.then(function(session) {
+  return stripe.redirectToCheckout({ sessionId: session.id });
+})
+.then(function(result) {
+
+  if (result.error) {
+    alert(result.error.message);
+  }
+});
+
+
    const onToken = (token) => {
     fetch('/save-stripe-token', {
       method: 'POST',
@@ -14,14 +36,15 @@ const TakeMoney = ({token}) => {
       });
     });
   }
- 
+
 
  {
     return <>
   
       <StripeCheckout
         token={token}
-        stripeKey="my_PUBLISHABLE_stripekey"
+        // stripePromise={stripePromise}
+        // stripeKey={process.env.PUBLISHABLE_KEY}
       />
       </>
   }

@@ -4,14 +4,12 @@ import {Order, TakeMoney} from './';
 import { getCart, swipeRedirect } from '../api';
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy');
-const stripekey = 'pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5yrS1fglu9iEOJh2n3pCnHy2W0cZNk8cqpo4jh00jPyg0vgy'
+
 
 
 const Cart = ({cart, setCart, token, fetchAndSetCart}) => {
 
-	useEffect(() => {
-		
-	},[token])
+
 
 	// const handlePay = async () => {
 	// 	await swipeRedirect()
