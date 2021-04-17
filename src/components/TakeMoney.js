@@ -15,10 +15,10 @@ const TakeMoney = ({token}) => {
     });
   }
  
-  // ...
+
  {
     return <>
-      // ...
+  
       <StripeCheckout
         token={token}
         stripeKey="my_PUBLISHABLE_stripekey"

@@ -9,6 +9,10 @@ const stripekey = 'pk_test_51IgfNNBiothv58cfwCUp7ZPgIF2yCI2MoUcLpb6koAO7fWyCOX5y
 
 const Cart = ({cart, setCart, token, fetchAndSetCart}) => {
 
+	useEffect(() => {
+		
+	},[token])
+
 	// const handlePay = async () => {
 	// 	await swipeRedirect()
 	// }
